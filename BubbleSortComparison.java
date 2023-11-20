@@ -6,7 +6,7 @@ public class BubbleSortComparison {
 
     public static void main(String[] args) {
         final int[] arraySizes = {1024, 2048, 4096};
-        final int numberOfRuns = 3;
+        final int numberOfRuns = 4;
 
         List<Class<?>> dataTypes = Arrays.asList(Integer.class, Double.class, String.class);
 
@@ -15,73 +15,145 @@ public class BubbleSortComparison {
         for (Class<?> dataType : dataTypes) {
             
             System.out.println("Data Type: " + dataType.getSimpleName());
+            Long[][] values = new Long[3][numberOfRuns];
 
             for (int run = 1; run <= numberOfRuns; run++) {
                 System.out.println("Run #" + run);
 
                 Object[] randomArray = generateRandomArray(1024, dataType);
 
-                runSortAndMeasureTime(randomArray, dataType);
-
+                Long [] attempt = runSortAndMeasureTime(randomArray, dataType);
+                
+                for (int i=0; i<values.length; i++) {
+                    values[i][run-1] = attempt[i];
+                }
                 System.out.println();
             }
+            for (int i=0; i<values.length; i++) {
+                Arrays.sort(values[i]);
+                System.out.println("Minimum: " + values[i][0]);
+                System.out.println("1st quartile: " + (values[i][0] + values[i][1])/2); // assumes numberOfRuns = 4 for simplicity
+                System.out.println("Median: " + (values[i][1] + values[i][2])/2); // assumes numberOfRuns = 4 for simplicity
+                System.out.println("3rd quartile: " + (values[i][2] + values[i][3])/2); // assumes numberOfRuns = 4 for simplicity
+                System.out.println("Maximum: " + values[i][numberOfRuns-1]);
+                System.out.println();
+            }
+            System.out.println();
+
         }
 
         System.out.println("Different Arrays Sizes: ");
         System.out.println();
         for (int size : arraySizes) {
             System.out.println("Array Size: " + size);
+            Long[][] values = new Long[3][numberOfRuns];
 
             for (int run = 1; run <= numberOfRuns; run++) {
                 System.out.println("Run #" + run);
 
                 Object[] randomArray = generateRandomArray(size, Integer.class);
 
-                runSortAndMeasureTime(randomArray, Integer.class);
+                Long[] attempt = runSortAndMeasureTime(randomArray, Integer.class);
+
+                for (int i=0; i<values.length; i++) {
+                    values[i][run-1] = attempt[i];
+                }
 
                 System.out.println();
             }
+            for (int i=0; i<values.length; i++) {
+                Arrays.sort(values[i]);
+                System.out.println("Minimum: " + values[i][0]);
+                System.out.println("1st quartile: " + (values[i][0] + values[i][1])/2); // assumes numberOfRuns = 4 for simplicity
+                System.out.println("Median: " + (values[i][1] + values[i][2])/2); // assumes numberOfRuns = 4 for simplicity
+                System.out.println("3rd quartile: " + (values[i][2] + values[i][3])/2); // assumes numberOfRuns = 4 for simplicity
+                System.out.println("Maximum: " + values[i][numberOfRuns-1]);
+                System.out.println();
+            }
+            System.out.println();
         }
 
         System.out.println("Different Initial Array States: ");
         System.out.println();
 
         System.out.println("Array Type: Random Order");
+        Long[][] values1 = new Long[3][numberOfRuns];
         for (int run = 1; run <= numberOfRuns; run++) {
             System.out.println("Run #" + run);
 
             Object[] randomArray = generateRandomArray(1024, Integer.class);
 
-            runSortAndMeasureTime(randomArray, Integer.class);
+            Long[] attempt = runSortAndMeasureTime(randomArray, Integer.class);
+            
+            for (int i=0; i<values1.length; i++) {
+                values1[i][run-1] = attempt[i];
+            }
 
+            System.out.println();
+        }
+        for (int i=0; i<values1.length; i++) {
+            Arrays.sort(values1[i]);
+            System.out.println("Minimum: " + values1[i][0]);
+            System.out.println("1st quartile: " + (values1[i][0] + values1[i][1])/2); // assumes numberOfRuns = 4 for simplicity
+            System.out.println("Median: " + (values1[i][1] + values1[i][2])/2); // assumes numberOfRuns = 4 for simplicity
+            System.out.println("3rd quartile: " + (values1[i][2] + values1[i][3])/2); // assumes numberOfRuns = 4 for simplicity
+            System.out.println("Maximum: " + values1[i][numberOfRuns-1]);
             System.out.println();
         }
 
         System.out.println("Array Type: Sorted Order");
+        Long[][] values2 = new Long[3][numberOfRuns];
         for (int run = 1; run <= numberOfRuns; run++) {
             System.out.println("Run #" + run);
             
             Object[] sortedArray = generateSortedArray(1024, Integer.class);
 
-            runSortAndMeasureTime(sortedArray, Integer.class);
+            Long[] attempt = runSortAndMeasureTime(sortedArray, Integer.class);
 
+            for (int i=0; i<values2.length; i++) {
+                values2[i][run-1] = attempt[i];
+            }
+
+            System.out.println();
+        }
+        for (int i=0; i<values2.length; i++) {
+            Arrays.sort(values2[i]);
+            System.out.println("Minimum: " + values2[i][0]);
+            System.out.println("1st quartile: " + (values2[i][0] + values2[i][1])/2); // assumes numberOfRuns = 4 for simplicity
+            System.out.println("Median: " + (values2[i][1] + values2[i][2])/2); // assumes numberOfRuns = 4 for simplicity
+            System.out.println("3rd quartile: " + (values2[i][2] + values2[i][3])/2); // assumes numberOfRuns = 4 for simplicity
+            System.out.println("Maximum: " + values2[i][numberOfRuns-1]);
             System.out.println();
         }
         
         System.out.println("Array Type: Inverted Sorted Order");
+        Long[][] values3 = new Long[3][numberOfRuns];
         for (int run = 1; run <= numberOfRuns; run++) {
             System.out.println("Run #" + run);
             
             Object[] invertedSortedArray = generateInvertedSortedArray(1024, Integer.class);
 
-            runSortAndMeasureTime(invertedSortedArray, Integer.class);
+            Long[] attempt = runSortAndMeasureTime(invertedSortedArray, Integer.class);
 
+            for (int i=0; i<values3.length; i++) {
+                values3[i][run-1] = attempt[i];
+            }
+
+            System.out.println();
+        }
+        for (int i=0; i<values3.length; i++) {
+            Arrays.sort(values3[i]);
+            System.out.println("Minimum: " + values3[i][0]);
+            System.out.println("1st quartile: " + (values3[i][0] + values3[i][1])/2); // assumes numberOfRuns = 4 for simplicity
+            System.out.println("Median: " + (values3[i][1] + values3[i][2])/2); // assumes numberOfRuns = 4 for simplicity
+            System.out.println("3rd quartile: " + (values3[i][2] + values3[i][3])/2); // assumes numberOfRuns = 4 for simplicity
+            System.out.println("Maximum: " + values3[i][numberOfRuns-1]);
             System.out.println();
         }
     }
 
-    private static void runSortAndMeasureTime(Object[] array, Class<?> dataType) {
-        
+    private static Long [] runSortAndMeasureTime(Object[] array, Class<?> dataType) {
+        Long [] durations = {0L,0L,0L};
         BubbleSortWhileNeeded<?> bubbleSort1 = new BubbleSortWhileNeeded<>();
         BubbleSortUntilNoChange<?> bubbleSort2 = new BubbleSortUntilNoChange<>();
         BubbleSortPassPerItem<?> bubbleSort3 = new BubbleSortPassPerItem<>();
@@ -107,16 +179,20 @@ public class BubbleSortComparison {
         Object[] copy1 = Arrays.copyOf(array, array.length);
         duration = performBubbleSort(copy1);
         System.out.println("BubbleSortWhileNeeded Time: " + duration + " nanoseconds");
+        durations[0] = duration;
 
         Object[] copy2 = Arrays.copyOf(array, array.length);
         duration = performBubbleSort(copy2);
         System.out.println("BubbleSortUntilNoChange Time: " + duration + " nanoseconds");
+        durations[1] = duration;
 
         Object[] copy3 = Arrays.copyOf(array, array.length);
         duration = performBubbleSort(copy3);
         System.out.println("BubbleSortPassPerItem Time: " + duration + " nanoseconds");
+        durations[2] = duration;
 
         System.out.println();
+        return durations;
     }
 
     private static long performBubbleSort(Object[] array) {
