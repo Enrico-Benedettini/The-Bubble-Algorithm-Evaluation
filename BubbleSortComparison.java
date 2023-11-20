@@ -10,30 +10,77 @@ public class BubbleSortComparison {
 
         List<Class<?>> dataTypes = Arrays.asList(Integer.class, Double.class, String.class);
 
+        System.out.println("Different Data Types: ");
+        System.out.println();
         for (Class<?> dataType : dataTypes) {
+            
             System.out.println("Data Type: " + dataType.getSimpleName());
-            for (int size : arraySizes) {
-                System.out.println("Array Size: " + size);
 
-                for (int run = 1; run <= numberOfRuns; run++) {
-                    System.out.println("Run #" + run);
+            for (int run = 1; run <= numberOfRuns; run++) {
+                System.out.println("Run #" + run);
 
-                    // Generate random, sorted, or inverted sorted arrays
-                    Object[] randomArray = generateRandomArray(size, dataType);
-                    Object[] sortedArray = generateSortedArray(size, dataType);
-                    Object[] invertedSortedArray = generateInvertedSortedArray(size, dataType);
+                Object[] randomArray = generateRandomArray(1024, dataType);
 
-                    runSortAndMeasureTime(randomArray, "Random Order", dataType);
-                    runSortAndMeasureTime(sortedArray, "Sorted Order", dataType);
-                    runSortAndMeasureTime(invertedSortedArray, "Inverted Sorted Order", dataType);
+                runSortAndMeasureTime(randomArray, dataType);
 
-                    System.out.println();
-                }
+                System.out.println();
             }
+        }
+
+        System.out.println("Different Arrays Sizes: ");
+        System.out.println();
+        for (int size : arraySizes) {
+            System.out.println("Array Size: " + size);
+
+            for (int run = 1; run <= numberOfRuns; run++) {
+                System.out.println("Run #" + run);
+
+                Object[] randomArray = generateRandomArray(size, Integer.class);
+
+                runSortAndMeasureTime(randomArray, Integer.class);
+
+                System.out.println();
+            }
+        }
+
+        System.out.println("Different Initial Array States: ");
+        System.out.println();
+
+        System.out.println("Array Type: Random Order");
+        for (int run = 1; run <= numberOfRuns; run++) {
+            System.out.println("Run #" + run);
+
+            Object[] randomArray = generateRandomArray(1024, Integer.class);
+
+            runSortAndMeasureTime(randomArray, Integer.class);
+
+            System.out.println();
+        }
+
+        System.out.println("Array Type: Sorted Order");
+        for (int run = 1; run <= numberOfRuns; run++) {
+            System.out.println("Run #" + run);
+            
+            Object[] sortedArray = generateSortedArray(1024, Integer.class);
+
+            runSortAndMeasureTime(sortedArray, Integer.class);
+
+            System.out.println();
+        }
+        
+        System.out.println("Array Type: Inverted Sorted Order");
+        for (int run = 1; run <= numberOfRuns; run++) {
+            System.out.println("Run #" + run);
+            
+            Object[] invertedSortedArray = generateInvertedSortedArray(1024, Integer.class);
+
+            runSortAndMeasureTime(invertedSortedArray, Integer.class);
+
+            System.out.println();
         }
     }
 
-    private static void runSortAndMeasureTime(Object[] array, String arrayType, Class<?> dataType) {
+    private static void runSortAndMeasureTime(Object[] array, Class<?> dataType) {
         
         BubbleSortWhileNeeded<?> bubbleSort1 = new BubbleSortWhileNeeded<>();
         BubbleSortUntilNoChange<?> bubbleSort2 = new BubbleSortUntilNoChange<>();
@@ -57,19 +104,17 @@ public class BubbleSortComparison {
 
         long duration;
 
-        System.out.println("Array Type: " + arrayType);
-
         Object[] copy1 = Arrays.copyOf(array, array.length);
         duration = performBubbleSort(copy1);
-        System.out.println("BubbleSortWhileNeeded Time: " + duration + "ms");
+        System.out.println("BubbleSortWhileNeeded Time: " + duration + " nanoseconds");
 
         Object[] copy2 = Arrays.copyOf(array, array.length);
         duration = performBubbleSort(copy2);
-        System.out.println("BubbleSortUntilNoChange Time: " + duration + "ms");
+        System.out.println("BubbleSortUntilNoChange Time: " + duration + " nanoseconds");
 
         Object[] copy3 = Arrays.copyOf(array, array.length);
         duration = performBubbleSort(copy3);
-        System.out.println("BubbleSortPassPerItem Time: " + duration + "ms");
+        System.out.println("BubbleSortPassPerItem Time: " + duration + " nanoseconds");
 
         System.out.println();
     }
@@ -81,19 +126,19 @@ public class BubbleSortComparison {
             startTime = System.nanoTime();
             bubbleSort.sort((Integer[]) array);
             endTime = System.nanoTime();
-            duration = (endTime - startTime) / 1000000; // Duration in milliseconds
+            duration = (endTime - startTime); // Duration in milliseconds
         } else if (array instanceof Double[]) {
             BubbleSortWhileNeeded<Double> bubbleSort = new BubbleSortWhileNeeded<>();
             startTime = System.nanoTime();
             bubbleSort.sort((Double[]) array);
             endTime = System.nanoTime();
-            duration = (endTime - startTime) / 1000000; // Duration in milliseconds
+            duration = (endTime - startTime); // Duration in milliseconds
         } else if (array instanceof String[]) {
             BubbleSortWhileNeeded<String> bubbleSort = new BubbleSortWhileNeeded<>();
             startTime = System.nanoTime();
             bubbleSort.sort((String[]) array);
             endTime = System.nanoTime();
-            duration = (endTime - startTime) / 1000000; // Duration in milliseconds
+            duration = (endTime - startTime); // Duration in milliseconds
         }
         return duration;
     }
