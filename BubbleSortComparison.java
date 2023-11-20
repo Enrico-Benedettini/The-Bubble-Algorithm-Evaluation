@@ -202,19 +202,19 @@ public class BubbleSortComparison {
             startTime = System.nanoTime();
             bubbleSort.sort((Integer[]) array);
             endTime = System.nanoTime();
-            duration = (endTime - startTime); // Duration in milliseconds
+            duration = (endTime - startTime);
         } else if (array instanceof Double[]) {
             BubbleSortWhileNeeded<Double> bubbleSort = new BubbleSortWhileNeeded<>();
             startTime = System.nanoTime();
             bubbleSort.sort((Double[]) array);
             endTime = System.nanoTime();
-            duration = (endTime - startTime); // Duration in milliseconds
+            duration = (endTime - startTime);
         } else if (array instanceof String[]) {
             BubbleSortWhileNeeded<String> bubbleSort = new BubbleSortWhileNeeded<>();
             startTime = System.nanoTime();
             bubbleSort.sort((String[]) array);
             endTime = System.nanoTime();
-            duration = (endTime - startTime); // Duration in milliseconds
+            duration = (endTime - startTime);
         }
         return duration;
     }
